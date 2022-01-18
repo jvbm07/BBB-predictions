@@ -79,18 +79,21 @@ def criaTabelaParticipantes(path, edicao):
     df['Região'] = regiao
     idade = df.apply(lambda x: transformaDataIdade(x['Data de nascimento'], edicao), axis=1)
     df['Idade'] = idade
-    print(df.head())
+    df['Sexo'] = 0
+    df['Sexualidade'] = 0
+    return df
 
 
 
-prefix = "../../data/external/participantes/participantes20"
-for i in range(1,22):
-    if i < 10:
-        suffix = "0" + str(i) + ".csv"
-    else:
-        suffix = str(i) + ".csv"
+prefix = "../../data/external/participantes/participantes"
+for i in range(2001,2022):
+    suffix = str(i) + ".csv"
     path = prefix + suffix
-    print(i)
-    edicao = 2000 + i
-    criaTabelaParticipantes(path, edicao)
+    edicao = i
+    novo = criaTabelaParticipantes(path, edicao)
+    novo.to_csv("../../data/intermin/participantes/participantes"+str(edicao)+".csv")
+
+#df = pd.read_csv("../../data/intermin/participantes/participantes" + str(i) + ".csv" for i in range(2001,2022))
+print(novo)
+#df.to_csv("../../data/processed/participantesTotais.csv")
 
